@@ -43,7 +43,6 @@ class UserFixtures extends Fixture
 
         for ($i = 0; $i < 5; $i++) {
             $user = new User();
-            $user->setCreatedAt(new DateTimeImmutable());
 
             $password = $this->hasher->hashPassword($user, self::DEFAULT_PASSWORD);
             
