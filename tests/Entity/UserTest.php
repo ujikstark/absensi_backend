@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Unit\App\Entity;
 
-use App\Entity\Todo;
 use App\Entity\User;
 use PHPUnit\Framework\TestCase;
 
