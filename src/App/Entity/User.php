@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\UserRepository;
 use DateTimeImmutable;
@@ -31,7 +32,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
             itemOperations: [
                 'get',
                 'put' => [
-                    'input' => UpdateUserDTO::class
+                    'input' => UpdateUserDTO::class,
                 ]
             ],
             formats: ['json']
