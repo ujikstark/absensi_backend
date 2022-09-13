@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\UserRepository;
 use DateTimeImmutable;
@@ -13,6 +12,7 @@ use Model\User\UpdateUserDTO;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation as Serializer;
 
 
 
@@ -26,7 +26,10 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
                     'security' => "is_granted('ROLE_ADMIN')"
                 ],
                 'post' => [
-                    'input' => CreateUserDTO::class
+                    'input' => CreateUserDTO::class,
+                    'normalization_context' => [
+                        'groups' => ['get_user'],
+                    ],
                 ]
             ],
             itemOperations: [
@@ -41,12 +44,22 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 #[UniqueEntity('username')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[
+        ORM\Id,
+        ORM\GeneratedValue,
+        ORM\Column,
+        Serializer\Groups(groups: [
+            'get_user',
+        ])
+    ]
     private ?int $id = null;
 
-    #[ORM\Column(length: 180)]
+    #[
+        ORM\Column(length: 180),
+        Serializer\Groups(groups: [
+            'get_user',
+        ])
+    ]
     private ?string $name = null;
 
     #[ORM\Column(length: 100)]
@@ -76,7 +89,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'json')]
     private $roles = [];    
 
-    #[ORM\Column(type: 'datetime')]
+    #[
+        ORM\Column(type: 'datetime'),
+        Serializer\Groups(groups: [
+            'get_user',
+        ])
+    ]
     private \DateTimeInterface $createdAt;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
