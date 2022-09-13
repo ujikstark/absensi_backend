@@ -7,16 +7,35 @@ use App\Repository\UserRepository;
 use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Model\User\CreateUserDTO;
+use Model\User\UpdateUserDTO;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 
 
 #[
     ORM\Entity(
-    repositoryClass: UserRepository::class),
-    ORM\Table(name: 'app_user'),
-    ApiResource(formats: ['json'])
+        repositoryClass: UserRepository::class),
+        ORM\Table(name: 'app_user'),
+        ApiResource(
+            collectionOperations: [
+                'get',
+                'post' => [
+                    'input' => CreateUserDTO::class
+                ]
+            ],
+            itemOperations: [
+                'get',
+                'put' => [
+                    'input' => UpdateUserDTO::class
+                ]
+            ],
+            formats: ['json']
+    )
 ]
+#[UniqueEntity('username')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -52,7 +71,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $description = null;
 
     #[ORM\Column(type: 'json')]
-    private $roles = [];
+    private $roles = [];    
 
     #[ORM\Column(type: 'datetime')]
     private \DateTimeInterface $createdAt;
