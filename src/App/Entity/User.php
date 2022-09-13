@@ -21,7 +21,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
         ORM\Table(name: 'app_user'),
         ApiResource(
             collectionOperations: [
-                'get',
+                'get' => [
+                    'security' => "is_granted('ROLE_ADMIN')"
+                ],
                 'post' => [
                     'input' => CreateUserDTO::class
                 ]
