@@ -5,6 +5,8 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\UserRepository;
 use DateTimeImmutable;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Model\User\CreateUserDTO;
@@ -100,9 +102,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'datetime', nullable: true)]
     private ?\DateTimeInterface $endedAt = null;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Attendance::class, orphanRemoval: true)]
+    private Collection $attendances;
+
     public function __construct()
     {
         $this->createdAt = new DateTimeImmutable();
+        $this->attendances = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -292,5 +298,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection<int, Attendance>
+     */
+    public function getAttendances(): Collection
+    {
+        return $this->attendances;
+    }
+
+    public function addAttendance(Attendance $attendance): self
+    {
+        if (!$this->attendances->contains($attendance)) {
+            $this->attendances->add($attendance);
+            $attendance->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAttendance(Attendance $attendance): self
+    {
+        if ($this->attendances->removeElement($attendance)) {
+            // set the owning side to null (unless already changed)
+            if ($attendance->getUser() === $this) {
+                $attendance->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }
