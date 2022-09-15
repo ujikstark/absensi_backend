@@ -6,8 +6,26 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\AttendanceRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: AttendanceRepository::class)]
-#[ApiResource]
+#[
+    ORM\Entity(
+        repositoryClass: AttendanceRepository::class),
+        ORM\Table(name: 'attendance'),
+        ApiResource(
+            collectionOperations: [
+                'get',
+                'post',
+            ],
+            itemOperations: [
+                'put',
+                'get' => [
+                    'controller' => NotFoundAction::class,
+                    'read' => false,
+                    'output' => false,
+                ],
+            ],
+            formats: ['json']
+    )
+]
 class Attendance
 {
     #[ORM\Id]
