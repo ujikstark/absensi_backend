@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Domain\User\Subscriber;
+namespace Tests\Subscriber;
 
 use App\Entity\User;
 use Domain\User\Subscriber\UserCreationSubscriber;

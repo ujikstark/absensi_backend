@@ -26,6 +26,11 @@ security:
             methods: [GET, PUT]
             stateless: true
             jwt: ~
+        attendances:
+            pattern: ^/api/attendances
+            methods: [GET, POST, PUT]
+            stateless: true
+            jwt: ~
         main:
             lazy: true
             provider: app_user_provider
@@ -41,6 +46,8 @@ security:
     access_control:
         - { path: ^/security, roles: PUBLIC_ACCESS }
         - { path: ^/api/users, roles: [IS_AUTHENTICATED_FULLY], methods: [GET, PUT] }
+        - { path: ^/api/attendances, roles: [IS_AUTHENTICATED_FULLY], methods: [GET, POST, PUT] }
+
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
 
