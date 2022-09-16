@@ -3,8 +3,11 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Controller\CreateAttendanceController;
+use App\Controller\UpdateAttendanceController;
 use App\Repository\AttendanceRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Model\Attendance\PersistAttendanceDTO;
 use Symfony\Component\Serializer\Annotation as Serializer;
 
 
@@ -19,10 +22,14 @@ use Symfony\Component\Serializer\Annotation as Serializer;
                         'groups' => ['get_attendances'],
                     ],
                 ],
-                'post',
+                'post' => [
+                    'controller' => CreateAttendanceController::class,
+                    // 'path' => CreateAttendanceController::PATH
+                    // 'input' => PersistAttendanceDTO::class
+                ],
             ],
             itemOperations: [
-                'put',
+                'put' => ['controller'=> UpdateAttendanceController::class],
                 'get' => [
                     'controller' => NotFoundAction::class,
                     'read' => false,
