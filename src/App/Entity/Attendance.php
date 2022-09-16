@@ -5,6 +5,8 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\AttendanceRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation as Serializer;
+
 
 #[
     ORM\Entity(
@@ -12,7 +14,11 @@ use Doctrine\ORM\Mapping as ORM;
         ORM\Table(name: 'attendance'),
         ApiResource(
             collectionOperations: [
-                'get',
+                'get' => [
+                    'normalization_context' => [
+                        'groups' => ['get_attendances'],
+                    ],
+                ],
                 'post',
             ],
             itemOperations: [
@@ -28,22 +34,37 @@ use Doctrine\ORM\Mapping as ORM;
 ]
 class Attendance
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[
+        ORM\Id,
+        ORM\GeneratedValue,
+        ORM\Column,
+        Serializer\Groups(groups: ['get_attendances'])
+
+    ]
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'attendances')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
-    #[ORM\Column(length: 100, nullable: true)]
+    #[
+        ORM\Column(length: 100, nullable: true),
+        Serializer\Groups(groups: ['get_attendances'])
+
+    ]
     private ?string $description = null;
 
-    #[ORM\Column(type: 'datetime', nullable: true)]
+    #[
+        ORM\Column(type: 'datetime', nullable: true),
+        Serializer\Groups(groups: ['get_attendances'])
+    ]
     private ?\DateTimeInterface $entered_at = null;
 
-    #[ORM\Column(type: 'datetime', nullable: true)]
+    #[
+        ORM\Column(type: 'datetime', nullable: true),
+        Serializer\Groups(groups: ['get_attendances'])
+
+    ]
     private ?\DateTimeInterface $exited_at = null;
 
     public function getId(): ?int
