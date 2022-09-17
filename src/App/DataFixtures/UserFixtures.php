@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\DataFixtures;
 
 use App\Entity\User;
-use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -35,7 +34,7 @@ class UserFixtures extends Fixture
             ->setUsername(self::DEFAULT_USERNAME)
             ->setName(self::DEFAULT_NAME)
             ->setPassword($password)
-            ->setCreatedAt(new DateTimeImmutable());
+            ->setCreatedAt(new \DateTimeImmutable());
 
         $manager->persist($defaultUser);
         
