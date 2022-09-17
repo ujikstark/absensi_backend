@@ -14,6 +14,12 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+
+        refresh:
+            pattern:  ^/security/refresh-token
+            stateless: true
+            refresh_jwt: ~
+        
         login:
             pattern: ^/security/login
             stateless: true
@@ -21,6 +27,7 @@ security:
                 check_path: /security/login
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
+        
         users:
             pattern: ^/api/users
             methods: [GET, PUT]
