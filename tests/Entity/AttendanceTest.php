@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\App\Entity;
+namespace Tests\Entity;
 
 use App\Entity\Attendance;
 use App\Entity\User;
