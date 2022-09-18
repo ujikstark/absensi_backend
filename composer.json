@@ -72,13 +72,17 @@
     "scripts": {
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
-            "assets:install %PUBLIC_DIR%": "symfony-cmd"
+            "assets:install %PUBLIC_DIR%": "symfony-cmd",
+            "lexik:jwt:generate-keypair --overwrite": "symfony-cmd"
         },
         "post-install-cmd": [
             "@auto-scripts"
         ],
         "post-update-cmd": [
-            "@auto-scripts"
+            "@auto-scripts",
+            "openssl genrsa -out config/jwt/private.pem 4096",
+            "openssl rsa -pubout -in config/jwt/private.pem -out config/jwt/public.pem",
+            "chmod -R 775 config/"
         ]
     },
     "conflict": {
