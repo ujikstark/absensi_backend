@@ -20,7 +20,7 @@ final class Version20220918080652 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE app_user ALTER COLUMN birth_date TYPE TIMESTAMP(0) WITHOUT TIME ZONE NULL');
+        $this->addSql('ALTER TABLE app_user ALTER COLUMN birth_date DROP NOT NULL');
     }
 
     public function down(Schema $schema): void
