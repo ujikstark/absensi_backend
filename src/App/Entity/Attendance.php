@@ -4,9 +4,11 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Controller\Attendance\CreateAttendanceController;
+use App\Controller\Attendance\UpdateDescriptionController;
 use App\Controller\Attendance\UpdatePresentController;
 use App\Repository\AttendanceRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Model\Attendance\UpdateDescriptionDTO;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Annotation as Serializer;
 
@@ -29,13 +31,13 @@ use Symfony\Component\Serializer\Annotation as Serializer;
                 ],
             ],
             itemOperations: [
-                'put' => ['controller'=> UpdateAttendanceController::class],
                 'get',
                 'updatePresent' => [
                     'controller' => UpdatePresentController::class,
                     'path' => UpdatePresentController::PATH,
                     'method' => Request::METHOD_PUT,
-                ] 
+                ],
+                
             ],
             formats: ['json']
     )
