@@ -3,11 +3,13 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Controller\CreateAttendanceController;
-use App\Controller\UpdateAttendanceController;
+use App\Controller\Attendance\CreateAttendanceController;
+use App\Controller\Attendance\UpdateDescriptionController;
+use App\Controller\Attendance\UpdatePresentController;
 use App\Repository\AttendanceRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Model\Attendance\PersistAttendanceDTO;
+use Model\Attendance\UpdateDescriptionDTO;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Annotation as Serializer;
 
 
@@ -22,19 +24,20 @@ use Symfony\Component\Serializer\Annotation as Serializer;
                         'groups' => ['get_attendances'],
                     ],
                 ],
-                'post' => [
+                'postAttendance' => [
                     'controller' => CreateAttendanceController::class,
-                    // 'path' => CreateAttendanceController::PATH
-                    // 'input' => PersistAttendanceDTO::class
+                    'path' => CreateAttendanceController::PATH,
+                    'method' => Request::METHOD_POST,
                 ],
             ],
             itemOperations: [
-                'put' => ['controller'=> UpdateAttendanceController::class],
-                'get' => [
-                    'controller' => NotFoundAction::class,
-                    'read' => false,
-                    'output' => false,
+                'get',
+                'updatePresent' => [
+                    'controller' => UpdatePresentController::class,
+                    'path' => UpdatePresentController::PATH,
+                    'method' => Request::METHOD_PUT,
                 ],
+                
             ],
             formats: ['json']
     )
@@ -65,14 +68,14 @@ class Attendance
         ORM\Column(type: 'datetime', nullable: true),
         Serializer\Groups(groups: ['get_attendances'])
     ]
-    private ?\DateTimeInterface $entered_at = null;
+    private ?\DateTimeInterface $enteredAt = null;
 
     #[
         ORM\Column(type: 'datetime', nullable: true),
         Serializer\Groups(groups: ['get_attendances'])
 
     ]
-    private ?\DateTimeInterface $exited_at = null;
+    private ?\DateTimeInterface $exitedAt = null;
 
     public function getId(): ?int
     {
@@ -105,24 +108,24 @@ class Attendance
 
     public function getEnteredAt(): ?\DateTimeInterface
     {
-        return $this->entered_at;
+        return $this->enteredAt;
     }
 
-    public function setEnteredAt(?\DateTimeInterface $entered_at): self
+    public function setEnteredAt(?\DateTimeInterface $enteredAt): self
     {
-        $this->entered_at = $entered_at;
+        $this->enteredAt = $enteredAt;
 
         return $this;
     }
 
     public function getExitedAt(): ?\DateTimeInterface
     {
-        return $this->exited_at;
+        return $this->exitedAt;
     }
 
-    public function setExitedAt(?\DateTimeInterface $exited_at): self
+    public function setExitedAt(?\DateTimeInterface $exitedAt): self
     {
-        $this->exited_at = $exited_at;
+        $this->exitedAt = $exitedAt;
 
         return $this;
     }
