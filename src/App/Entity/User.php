@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Controller\Account\GetMeController;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -13,6 +14,8 @@ use Model\User\UpdateUserDTO;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Annotation as Serializer;
 
 
@@ -37,7 +40,30 @@ use Symfony\Component\Serializer\Annotation as Serializer;
                 'get',
                 'put' => [
                     'input' => UpdateUserDTO::class,
-                ]
+                ],
+                'getMe' => [
+                    'method' => Request::METHOD_GET,
+                    'normalization_context' => [
+                        'groups' => ['get_me'],
+                    ],
+                    'path' => GetMeController::PATH,
+                    'identifiers' => [],
+                    'controller' => GetMeController::class,
+                    'read' => false,
+                    'openapi_context' => [
+                        'tags' => ['Account'],
+                        'summary' => 'Retrieves current user resource.',
+                        'description' => 'Retrieves current user resource.',
+                        'parameters' => [],
+                        'responses' => [
+                            Response::HTTP_UNAUTHORIZED => [
+                                'description' => 'Unauthenticated user',
+                                'content' => [
+                                    'application/json' => [],
+                                ],
+                            ],
+                        ],
+                    ],],
             ],
             formats: ['json']
     )
@@ -51,6 +77,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         ORM\Column,
         Serializer\Groups(groups: [
             'get_user',
+            'get_me'
         ])
     ]
     private ?int $id = null;
