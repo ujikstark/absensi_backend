@@ -37,7 +37,11 @@ use Symfony\Component\Serializer\Annotation as Serializer;
                 ]
             ],
             itemOperations: [
-                'get',
+                'get' => [
+                    'normalization_context' => [
+                        'groups' => ['get_user'],
+                    ],
+                ],
                 'put' => [
                     'input' => UpdateUserDTO::class,
                 ],
@@ -97,22 +101,42 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $password = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    #[
+        ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true),
+        Serializer\Groups(groups: [
+            'get_user',
+        ])
+    ]
     private ?\DateTimeInterface $birthDate = null;
 
     #[ORM\Column(nullable: true)]
     private ?bool $gender = null;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[
+        ORM\Column(type: Types::TEXT, nullable: true),
+        Serializer\Groups(groups: [
+        'get_user',
+        ])
+    ]
     private ?string $address = null;
 
-    #[ORM\Column(length: 20, nullable: true)]
+    #[
+        ORM\Column(length: 20, nullable: true),
+        Serializer\Groups(groups: [
+            'get_user',
+        ])
+    ]
     private ?string $phoneNumber = null;
 
     #[ORM\Column(length: 50, nullable: true)]
     private ?string $status = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[
+        ORM\Column(length: 255, nullable: true),
+        Serializer\Groups(groups: [
+            'get_user',
+        ])
+    ]
     private ?string $description = null;
 
     #[ORM\Column(type: 'json')]
