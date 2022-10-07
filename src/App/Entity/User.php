@@ -86,6 +86,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         ORM\Column(length: 180),
         Serializer\Groups(groups: [
             'get_user',
+            'get_me',
         ])
     ]
     private ?string $name = null;
@@ -286,6 +287,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
 
+
         return array_unique($roles);
     }
 
@@ -354,5 +356,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         return $this;
+    }
+
+    #[Serializer\Groups(groups: ['get_me'])]
+    public function getLastAttendance(): ?Attendance
+    {
+        $attendance = $this->attendances->last();
+
+        if (false === $attendance) {
+            return null;
+        }
+
+        return $attendance;
     }
 }
