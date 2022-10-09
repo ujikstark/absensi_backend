@@ -37,7 +37,8 @@ class UpdateUserDataTransformer implements DataTransformerInterface
             // ->setGender($object->getGender())
             // ->setStatus($object->getStatus())
             ->setPhoneNumber($object->getPhoneNumber())
-            ->setAddress($object->getAddress());
+            ->setAddress($object->getAddress())
+            ->setDescription($object->getDescription());
         
         return $user;
     }

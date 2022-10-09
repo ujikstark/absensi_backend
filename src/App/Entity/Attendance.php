@@ -31,7 +31,11 @@ use Symfony\Component\Serializer\Annotation as Serializer;
                 ],
             ],
             itemOperations: [
-                'get',
+                'get' => [
+                    'normalization_context' => [
+                        'groups' => ['get_attendances'],
+                    ],
+                ],
                 'updatePresent' => [
                     'controller' => UpdatePresentController::class,
                     'path' => UpdatePresentController::PATH,
