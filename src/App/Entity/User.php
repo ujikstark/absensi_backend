@@ -101,16 +101,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $password = null;
 
-<<<<<<< HEAD
-    #[ORM\Column(type: 'datetime', nullable: true)]
-=======
     #[
-        ORM\Column(type: 'datetime, nullable: true),
+        ORM\Column(type: 'datetime', nullable: true),
         Serializer\Groups(groups: [
             'get_user',
         ])
     ]
->>>>>>> update-user
     private ?\DateTimeInterface $birthDate = null;
 
     #[ORM\Column(nullable: true)]
