@@ -102,7 +102,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[
-        ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true),
+        ORM\Column(type: 'datetime', nullable: true),
         Serializer\Groups(groups: [
             'get_user',
         ])
