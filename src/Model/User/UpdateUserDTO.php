@@ -8,32 +8,19 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 final class UpdateUserDTO
 {
-    #[Assert\NotBlank]
     private string $name;
     
-    #[Assert\NotBlank]    
     private ?\DateTime $birthDate = null;
     
-    #[Assert\Type('bool')]
-    private ?bool $gender = null;
-    
-    #[Assert\NotBlank]
+  
     private ?string $address = null;
 
     #[
-        Assert\NotBlank,
         Assert\Length(max: 20)
     ]
     private ?string $phoneNumber = null;
-
-    #[
-        Assert\NotBlank,
-        Assert\Length(max: 50)
-    ]
-    private ?string $status = null;
     
     #[
-        Assert\NotBlank,
         Assert\Length(max: 254)
     ]
     private ?string $description = null;
@@ -62,17 +49,6 @@ final class UpdateUserDTO
         return $this;
     }
 
-    public function getGender(): bool
-    {
-        return $this->gender;
-    }
-
-    public function setGender(bool $gender): self
-    {
-        $this->gender = $gender;
-
-        return $this;
-    }
 
     public function getAddress(): string
     {
@@ -94,18 +70,6 @@ final class UpdateUserDTO
     public function setPhoneNumber(string $phoneNumber): self
     {
         $this->phoneNumber = $phoneNumber;
-
-        return $this;
-    }
-
-    public function getStatus(): string
-    {
-        return $this->status;
-    }
-
-    public function setStatus(string $status): self
-    {
-        $this->status = $status;
 
         return $this;
     }
