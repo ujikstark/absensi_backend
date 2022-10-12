@@ -4,11 +4,10 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Controller\Attendance\CreateAttendanceController;
-use App\Controller\Attendance\UpdateDescriptionController;
+use App\Controller\Attendance\GetAttendancesByMonthController;
 use App\Controller\Attendance\UpdatePresentController;
 use App\Repository\AttendanceRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Model\Attendance\UpdateDescriptionDTO;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Annotation as Serializer;
 
@@ -29,6 +28,14 @@ use Symfony\Component\Serializer\Annotation as Serializer;
                     'path' => CreateAttendanceController::PATH,
                     'method' => Request::METHOD_POST,
                 ],
+                'getByMonth' => [
+                    'normalization_context' => [
+                        'groups' => ['get_attendances'],
+                    ],
+                    'controller' => GetAttendancesByMonthController::class,
+                    'path' => GetAttendancesByMonthController::PATH,
+                    'method' => Request::METHOD_GET,
+                ]
             ],
             itemOperations: [
                 'get' => [
