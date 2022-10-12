@@ -393,4 +393,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $attendance;
     }
+
+    /**
+     * @return Collection<int, Attendance>
+     */
+    public function getAttendancesByMonth(int $month): Collection
+    {
+        return $this->attendances->map(function(Attendance $element) use ($month) {
+            if  ((int)date('m', $element->getEnteredAt()->getTimestamp()) ==  $month) {
+                return $element;
+            }
+        });
+    }
 }
