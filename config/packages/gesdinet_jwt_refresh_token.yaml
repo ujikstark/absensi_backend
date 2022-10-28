@@ -1,6 +1,6 @@
 gesdinet_jwt_refresh_token:
   refresh_token_class: App\Entity\RefreshToken
-  ttl: 2592000
+  ttl: '%env(int:REFRESH_TOKEN_TTL)%'
   # cookie:
   #     enabled: true
   #     same_site: 'none'            # default value
