@@ -1,15 +1,5 @@
 gesdinet_jwt_refresh_token:
   refresh_token_class: App\Entity\RefreshToken
-<<<<<<< HEAD
-  ttl: 2592000
-  cookie:
-      enabled: true
-      same_site: 'none'            # default value
-      path: /                      # default value
-      domain: null                 # default value
-      http_only: true              # default value
-      secure: true                 # default value
-=======
   ttl: '%env(int:REFRESH_TOKEN_TTL)%'
   # cookie:
   #     enabled: true
@@ -18,4 +8,3 @@ gesdinet_jwt_refresh_token:
   #     domain: null                 # default value
   #     http_only: true              # default value
   #     secure: true                 # default value
->>>>>>> link-admin
