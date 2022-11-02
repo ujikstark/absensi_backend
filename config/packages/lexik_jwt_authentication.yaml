@@ -3,16 +3,8 @@ lexik_jwt_authentication:
     public_key: '%env(resolve:JWT_PUBLIC_KEY)%'
     pass_phrase: '%env(JWT_PASSPHRASE)%'
     token_ttl: '%env(int:ACCESS_TOKEN_TTL)%'
+
     token_extractors: 
         cookie: 
             enabled: true
             name: access_token
-
-    # set_cookies:
-    #     access_token:
-    #         lifetime: 3600
-    #         samesite: 'none'
-    #         path: /
-    #         domain: null 
-    #         secure: true
-    #         httpOnly: true
