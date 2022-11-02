@@ -32,10 +32,10 @@ class MainController extends AbstractController
         $date = new \DateTime();
 
         $attendancesToday =  array_filter($lastAttendances, function($value) use ($date) {
-            // $currentDate = date_create($value['entered_at']);
+            $currentDate = date_create($value['entered_at']);
 
-            // return date_format($currentDate, 'Y-m-d') == $date->format('Y-m-d'); 
-            return true;
+            return date_format($currentDate, 'Y-m-d') == $date->format('Y-m-d'); 
+            // return true;
         });
 
         usort($lastAttendances, function($first, $second) {
@@ -44,6 +44,13 @@ class MainController extends AbstractController
         
 
         return $this->render('admin/analisis/index.html.twig', ['lastAttendances' => $lastAttendances, 'attendancesToday' => $attendancesToday]);
+    }
+
+    #[Route('/admin/logout', name: 'app_admin_logout', methods: ['GET'])]
+    public function logout()
+    {
+        // controller can be blank: it will never be called!
+        throw new \Exception('Don\'t forget to activate logout in security.yaml');
     }
 
     
