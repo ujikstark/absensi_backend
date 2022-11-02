@@ -1,0 +1,107 @@
+{% extends "admin/layouts/main.html.twig" %}
+
+
+{% block sidebar %}
+<!-- Main Sidebar Container -->
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+  <!-- Brand Logo -->
+  <a href="index3.html" class="brand-link">
+    <span class="brand-text font-weight-light">Kejaksaan Tinggi Sumsel</span>
+  </a>
+
+  <!-- Sidebar -->
+  <div class="sidebar" <!-- Sidebar Menu -->
+    <nav class="mt-2">
+      <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+
+        <li class="nav-header">PAGES</li>
+        <li class="nav-item">
+          <a href="/admin" class="nav-link active">
+            <i class="nav-icon far fa-circle text-danger"></i>
+            <p>Analisis</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="/admin/pegawai" class="nav-link">
+            <i class="nav-icon far fa-circle text-danger"></i>
+            <p>Data Pegawai</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="/admin/logout" class="nav-link">
+            <i class="nav-icon far fa-circle text-danger"></i>
+            <p>Logout</p>
+          </a>
+        </li>
+        
+
+      </ul>
+    </nav>
+    <!-- /.sidebar-menu -->
+  </div>
+  <!-- /.sidebar -->
+</aside>
+{% endblock %}
+
+{% block container %}
+
+<h1 class="mb-5">Analisis</h1>
+<div class="row justify-content-around">
+  <div class="card p-4 col-md-6">
+    <h1>Absen Masuk Tercepat</h1>
+    <div class="card-body">
+
+      {% if attendancesToday %}
+      <table class="table table-bordered text-center">
+        <thead>
+          <tr>
+            <th scope="col">No</th>
+            <th scope="col">Nama Lengkap</th>
+            <th scope="col">Absen Masuk</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          {% for lastAttendance in attendancesToday %}
+          <tr>
+            <th scope="row">{{ loop.index }}</th>
+            <td>{{ lastAttendance.name }}</td>
+            <td>{{ lastAttendance.entered_at }}</td>
+
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      {% else %}
+      <p>Belum ada data yang absen hari ini!</p>
+      {% endif %}
+
+    </div>
+  </div>
+  <div class="p-4 col-md-5">
+    <div class="card-body">
+
+      <div class="progress-group">
+        Pegawai Sudah Absen Masuk
+        <span class="float-right"><b>{{ attendancesToday|length }}</b>/{{ lastAttendances|length }}</span>
+        <div class="progress progress-sm">
+          <div class="progress-bar bg-primary" style="width: {{ attendancesToday|length * 100 / lastAttendances|length }}%"></div>
+        </div>
+      </div>
+
+      <div class="progress-group">
+        Pegawai Belum Absen Masuk
+        <span class="float-right"><b>{{ lastAttendances|length - attendancesToday|length }}</b>/{{ lastAttendances|length }}</span>
+        <div class="progress progress-sm">
+          <div class="progress-bar bg-warning" style="width: {{ (lastAttendances|length - attendancesToday|length) * 100 / lastAttendances|length }}%"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+{% endblock %}
