@@ -1,0 +1,116 @@
+{% extends "admin/layouts/main.html.twig" %}
+
+{% block sidebar %}
+<!-- Main Sidebar Container -->
+  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="index3.html" class="brand-link">
+      <span class="brand-text font-weight-light">Kejaksaan Tinggi Sumsel</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar"
+      
+
+      <!-- Sidebar Menu -->
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            
+          <li class="nav-header">PAGES</li>
+          <li class="nav-item">
+            <a href="/admin" class="nav-link">
+              <i class="nav-icon far fa-circle text-danger"></i>
+              <p>Analisis</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/admin/pegawai" class="nav-link active">
+              <i class="nav-icon far fa-circle text-danger"></i>
+              <p>Data Pegawai</p>
+            </a>
+          </li>
+          
+        </ul>
+      </nav>
+      <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+  </aside>
+{% endblock %}
+
+
+{% block container %}
+
+<div class="row">
+  <div class="card p-4 col-12 ms-sm-auto">
+    {# <h1 class="card-title">Data Pegawai</h1> #}
+    <div class="card-body">
+      <h1 class="mb-5">Data Pegawai</h1>
+      <a href="/admin/pegawai/create" class="btn btn-success mb-4"><i class="fas fa-plus"></i> Tambah Pegawai</a>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">No</th>
+            <th scope="col">Nama Lengkap</th>
+            <th scope="col">Username</th>
+            <th scope="col">Deskripsi</th>
+            <th scope="col">Nomor HP</th>
+            <th scope="col">Alamat</th>
+            <th scope="col">Aksi</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for user in users %}
+          <tr>
+            <th scope="row">{{ loop.index }}</th>
+            <td>{{ user.name }}</td>
+            <td>{{ user.username }}</td>
+            <td>{{ user.description }}</td>
+            <td>{{ user.phoneNumber }}</td>
+            <td>{{ user.address }}</td>
+            <td>
+              <div class="d-flex p-2 justify-content-center align-items-center">
+
+                <a href="/admin/pegawai/edit/{{ user.id }}" class="btn btn-info d-flex mr-2"><i class="fas fa-edit mr-1"></i>
+                  Edit</a>
+                <button type="button" class="btn btn-danger d-flex mr-2" data-toggle="modal"
+                  data-target="#modal-delete">
+                  <i class="fas fa-trash mr-1"></i>Delete
+                </button>
+                <div class="modal fade" id="modal-delete">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h4 class="modal-title">Hapus User ({{ user.name }})</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <p>Apakah kamu yakin ingin menghapusnya?</p>
+                      </div>
+                      <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <a href="/admin/pegawai/delete/{{ user.id }}" type="button" class="btn btn-danger">Hapus</a>
+                      </div>
+                    </div>
+                    <!-- /.modal-content -->
+                  </div>
+                  <!-- /.modal-dialog -->
+                </div>
+                {# <a href="/admin/pegawai/delete/{{ user.id }}" class="btn btn-danger d-flex"><i class="fas fa-trash mr-1"></i>
+                  Hapus</a> #}
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- /.modal -->
+  {% endblock %}

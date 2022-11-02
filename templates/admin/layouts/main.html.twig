@@ -36,8 +36,9 @@
   </div>
   
   {% include 'admin/layouts/sidebar.html.twig' %}
-  {% include 'admin/layouts/navbar.html.twig' %}
-
+  {# {% include 'admin/layouts/navbar.html.twig' %} #}
+  {% block sidebar %}
+  {% endblock %}
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
