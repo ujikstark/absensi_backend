@@ -1,3 +1,4 @@
+{% import "admin/modals/delete.html.twig" as modal %}
 {% extends "admin/layouts/main.html.twig" %}
 
 {% block sidebar %}
@@ -79,30 +80,12 @@
                 <a href="/admin/pegawai/edit/{{ user.id }}" class="btn btn-info d-flex mr-2"><i class="fas fa-edit mr-1"></i>
                   Edit</a>
                 <button type="button" class="btn btn-danger d-flex mr-2" data-toggle="modal"
-                  data-target="#modal-delete">
+                  data-target="#modal-delete-{{ user.id }}">
                   <i class="fas fa-trash mr-1"></i>Delete
                 </button>
-                <div class="modal fade" id="modal-delete">
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h4 class="modal-title">Hapus User ({{ user.name }})</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                        </button>
-                      </div>
-                      <div class="modal-body">
-                        <p>Apakah kamu yakin ingin menghapusnya?</p>
-                      </div>
-                      <div class="modal-footer justify-content-between">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <a href="/admin/pegawai/delete/{{ user.id }}" type="button" class="btn btn-danger">Hapus</a>
-                      </div>
-                    </div>
-                    <!-- /.modal-content -->
-                  </div>
-                  <!-- /.modal-dialog -->
-                </div>
+
+                {{ modal.create_delete_modal('modal-delete-'~user.id,user.id, user.name) }}
+                
                 {# <a href="/admin/pegawai/delete/{{ user.id }}" class="btn btn-danger d-flex"><i class="fas fa-trash mr-1"></i>
                   Hapus</a> #}
               </div>
