@@ -3,6 +3,48 @@
 {% block title %}Log in!{% endblock %}
 
 {% block body %}
+<section class="vh-100" style="background-color: #508bfc;">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+        <div class="card shadow-2-strong" style="border-radius: 1rem;">
+          <div class="card-body p-5 text-center">
+
+            <h3 class="mb-5">Admin Login</h3>
+            <form method="post">
+                {% if error %}
+                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                {% endif %}
+
+                {% if app.user %}
+                    <div class="mb-3">
+                        You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_admin_logout') }}">Logout</a>
+                    </div>
+                {% endif %}
+
+                <div class="form-outline mb-4">
+                <input type="text" name="username" value="{{ last_username }}" id="inputUsername" class="form-control form-control-lg" placeholder="Username" autocomplete="username" required autofocus/>
+                {# <label class="form-label" for="typeEmailX-2">Email</label> #}
+                </div>
+
+                <div class="form-outline mb-4">
+                <input type="password" name="password" id="inputPassword" class="form-control form-control-lg" placeholder="Password" required/>
+                {# <label class="form-label" for="typePasswordX-2">Password</label> #}
+                </div>
+                <input type="hidden" name="_csrf_token"
+                    value="{{ csrf_token('authenticate') }}"
+                >
+
+                <button class="btn btn-primary btn-lg btn-block" type="submit">Login</button>
+            </form>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <form method="post">
     {% if error %}
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
@@ -10,7 +52,7 @@
 
     {% if app.user %}
         <div class="mb-3">
-            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_admin_logout') }}">Logout</a>
         </div>
     {% endif %}
 
@@ -24,16 +66,6 @@
            value="{{ csrf_token('authenticate') }}"
     >
 
-    {#
-        Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-        See https://symfony.com/doc/current/security/remember_me.html
-
-        <div class="checkbox mb-3">
-            <label>
-                <input type="checkbox" name="_remember_me"> Remember me
-            </label>
-        </div>
-    #}
 
     <button class="btn btn-lg btn-primary" type="submit">
         Sign in
