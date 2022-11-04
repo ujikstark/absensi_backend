@@ -1,6 +1,5 @@
 {% extends "admin/layouts/main.html.twig" %}
 
-
 {% block sidebar %}
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
@@ -16,7 +15,7 @@
 
         <li class="nav-header">PAGES</li>
         <li class="nav-item">
-          <a href="/admin" class="nav-link active">
+          <a href="/admin" class="nav-link">
             <i class="nav-icon far fa-circle text-success"></i>
             <p>Analisis</p>
           </a>
@@ -28,19 +27,18 @@
           </a>
         </li>
         <li class="nav-item">
-            <a href="/admin/cetak" class="nav-link">
-              <i class="nav-icon far fa-circle text-info"></i>
-              <p>Cetak Riwayat</p>
-            </a>
-          </li>
+          <a href="/admin/cetak" class="nav-link active">
+            <i class="nav-icon far fa-circle text-info"></i>
+            <p>Cetak Riwayat</p>
+          </a>
+        </li>
+
         <li class="nav-item">
           <a href="/admin/logout" class="nav-link">
             <i class="nav-icon far fa-circle text-danger"></i>
             <p>Logout</p>
           </a>
         </li>
-        
-
       </ul>
     </nav>
     <!-- /.sidebar-menu -->
@@ -49,65 +47,56 @@
 </aside>
 {% endblock %}
 
+
 {% block container %}
 
-<h1 class="mb-5">Analisis</h1>
-<div class="row justify-content-around">
-  <div class="card p-4 col-md-6">
-    <h1>Absen Masuk Tercepat</h1>
+<div class="row">
+  <div class="card p-4 col-12 ms-sm-auto">
+    {# <h1 class="card-title">Data Pegawai</h1> #}
     <div class="card-body">
+      <h1 class="mb-5">Absen Pegawai</h1>
 
-      {% if attendancesToday %}
-      <table class="table table-bordered text-center">
+      <div class="row mb-5">
+        <div class="col-3">
+          {{ form_start(form) }}
+            {{ form_widget(form) }}
+            
+            <button type="submit" class="btn btn-primary mt-4">Ubah Tanggal</button>
+
+          {{ form_end(form) }}
+        </div>
+      </div>      
+
+      
+      {# <a href="/admin/pegawai/create" class="btn btn-success mb-4"><i class="fas fa-plus"></i> Pilih Tanggal</a> #}
+      <table class="table table-bordered">
         <thead>
           <tr>
             <th scope="col">No</th>
             <th scope="col">Nama Lengkap</th>
             <th scope="col">Absen Masuk</th>
-
+            <th scope="col">Absen Keluar</th>
+            {# <th scope="col">Deskripsi</th> #}
           </tr>
         </thead>
         <tbody>
-          {% for lastAttendance in attendancesToday %}
+          {% for attendance in attendances %}
           <tr>
             <th scope="row">{{ loop.index }}</th>
-            <td>{{ lastAttendance.name }}</td>
-            <td>{{ lastAttendance.entered_at }}</td>
+            <td>{{ attendance.name }}</td>
+            <td>{{ attendance.entered_at }}</td>
+            <td>{{ attendance.exited_at }}</td>
+            {# <td>{{ attendance.description }}</td> #}
 
           </tr>
           {% endfor %}
         </tbody>
       </table>
-
-      {% else %}
-      <p>Belum ada data yang absen hari ini!</p>
-      {% endif %}
-
+      <div>
+      </div>
     </div>
   </div>
-  <div class="p-4 col-md-5">
-    <div class="card-body">
-
-      <div class="progress-group">
-        Pegawai Sudah Absen Masuk
-        <span class="float-right"><b>{{ attendancesToday|length }}</b>/{{ lastAttendances|length }}</span>
-        <div class="progress progress-sm">
-          <div class="progress-bar bg-primary" style="width: {{ attendancesToday|length * 100 / lastAttendances|length }}%"></div>
-        </div>
-      </div>
-
-      <div class="progress-group">
-        Pegawai Belum Absen Masuk
-        <span class="float-right"><b>{{ lastAttendances|length - attendancesToday|length }}</b>/{{ lastAttendances|length }}</span>
-        <div class="progress progress-sm">
-          <div class="progress-bar bg-warning" style="width: {{ (lastAttendances|length - attendancesToday|length) * 100 / lastAttendances|length }}%"></div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</div>
 
 
-
-{% endblock %}
+  <!-- /.modal -->
+  {% endblock %}

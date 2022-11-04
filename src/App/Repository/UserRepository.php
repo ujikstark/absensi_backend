@@ -4,6 +4,8 @@ namespace App\Repository;
 
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Query\Parameter;
 use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -64,6 +66,40 @@ class UserRepository extends ServiceEntityRepository
         return $query->getResult();
 
     }
+
+    /** @return array */
+    public function findByDate(\DateTime $date): array
+    {
+        $rsm = new ResultSetMapping();
+        $rsm->addScalarResult('id', 'attendance_id');
+        $rsm->addScalarResult('name', 'name');
+        $rsm->addScalarResult('user_id', 'user_id');
+        $rsm->addScalarResult('entered_at', 'entered_at');
+        $rsm->addScalarResult('exited_at', 'exited_at');
+        // $rsm->addScalarResult('description', 'description');
+
+        $dateYear = (int)$date->format('Y');
+        $dateMonth = (int)$date->format('m');
+        $dateDay = (int)$date->format('d');
+
+        $query = $this->getEntityManager()->createNativeQuery('SELECT a.*, u.*
+            FROM attendance AS a INNER JOIN app_user AS u ON u.id = (
+                SELECT id FROM app_user AS u2 Where u2.id = a.user_id   
+                )
+            WHERE YEAR(a.entered_at) =  :y AND MONTH(a.entered_at) = :m AND DAY(a.entered_at) = :d
+            
+        ', $rsm);
+        $query->setParameters(new ArrayCollection([
+            new Parameter('y', $dateYear),
+            new Parameter('m', $dateMonth),
+            new Parameter('d', $dateDay)
+        ]));
+
+        return $query->getResult();
+
+    }
+
+
 
     //    /**
     //     * @return User[] Returns an array of User objects
