@@ -43,7 +43,7 @@ class MainController extends AbstractController
         });
         
 
-        return $this->render('admin/analisis/index.html.twig', ['lastAttendances' => $lastAttendances, 'attendancesToday' => $attendancesToday]);
+        return $this->render('admin/analisis/index.html.twig', ['lastAttendances' => $lastAttendances, 'attendancesToday' => $attendancesToday, 'date'=> $date]);
     }
 
     #[Route('/admin/logout', name: 'app_admin_logout', methods: ['GET'])]

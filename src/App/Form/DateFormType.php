@@ -17,7 +17,7 @@ class DateFormType extends AbstractType
                 'label' => 'Pilih Tanggal',
                 'attr' => array(
                     'class' =>  'form-control',
-                
+                    
                 ),
             ],);
     }

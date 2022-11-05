@@ -29,19 +29,24 @@ class PrintController extends AbstractController
         $form = $this->createForm(DateFormType::class);
         $form->handleRequest(($request));
 
+        $currentDate = new \DateTime;
+
         if ($form->isSubmitted() && $form->isValid()) {
             $newDate = $form->getData();
+            $currentDate = $newDate['date'];
             // dd($newDate);
-            $attendances = $this->userRepository->findByDate($newDate['date']);
+            $attendances = $this->userRepository->findByDate($currentDate);
+
+            // dd($attendances);
 
         } else {
 
-            $attendances = $this->userRepository->findByDate(new \DateTime());
+            $attendances = $this->userRepository->findByDate($currentDate);
         }
 
 
 
-        return $this->render('admin/print/index.html.twig', ['attendances' => $attendances, 'form' => $form->createView()]);
+        return $this->render('admin/print/index.html.twig', ['attendances' => $attendances, 'form' => $form->createView(), 'date'=> $currentDate]);
     }
 
     
