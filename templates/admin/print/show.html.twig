@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+
+</style>
+</head>
+<body>
+
+
+<h2>Absen Pegawai Honorer Kejaksaan Tinggi Sumatera Selatan {{ date|date('d M Y')}}</h2>
+      
+      {# <a href="/admin/pegawai/create" class="btn btn-success mb-4"><i class="fas fa-plus"></i> Pilih Tanggal</a> #}
+      <table border="1px">
+        <thead>
+          <tr>
+            <th scope="col">No</th>
+            <th scope="col">Nama Lengkap</th>
+            <th scope="col">Absen Masuk</th>
+            <th scope="col">Absen Keluar</th>
+            {# <th scope="col">Deskripsi</th> #}
+          </tr>
+        </thead>
+        <tbody>
+          {% for attendance in attendances %}
+          <tr>
+            <th scope="row">{{ loop.index }}</th>
+            <td>{{ attendance.name }}</td>
+            <td>{{ attendance.entered_at }}</td>
+            <td>{{ attendance.exited_at }}</td>
+            {# <td>{{ attendance.description }}</td> #}
+
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+</body>
+</html>
+
+
+
+      
+    
