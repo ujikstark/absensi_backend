@@ -7,6 +7,8 @@ use App\Form\DateFormType;
 use App\Form\EditUserFormType;
 use App\Form\UserFormType;
 use App\Repository\UserRepository;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,14 +30,44 @@ class PrintController extends AbstractController
 
         $form = $this->createForm(DateFormType::class);
         $form->handleRequest(($request));
-
+        
         $currentDate = new \DateTime;
 
         if ($form->isSubmitted() && $form->isValid()) {
             $newDate = $form->getData();
+
+            /** @var DateTime date */
             $currentDate = $newDate['date'];
-            // dd($newDate);
+
             $attendances = $this->userRepository->findByDate($currentDate);
+
+
+            if ($form->get('print')->isClicked()) {
+                $pdfOptions = new Options();
+                $pdfOptions->set('defaultFont', 'Arial');
+
+                // Instantiate Dompdf with our options
+                $dompdf = new Dompdf($pdfOptions);
+
+                // Retrieve the HTML generated in our twig file
+                $html = $this->renderView('admin/print/show.html.twig', ['attendances' => $attendances, 'form' => $form->createView(), 'date' => $currentDate]);
+
+                // Load HTML to Dompdf
+                $dompdf->loadHtml($html);
+
+                // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
+                $dompdf->setPaper('A4', 'portrait');
+
+                // Render the HTML as PDF
+                $dompdf->render();
+
+                // Output the generated PDF to Browser (inline view)
+                $dompdf->stream("Absen ". date_format($currentDate, "d M Y"), [
+                    "Attachment" => false
+                ]);
+                // return $this->render('admin/print/test.html.twig');
+            }
+            // dd($newDate);
 
             // dd($attendances);
 
@@ -46,8 +78,8 @@ class PrintController extends AbstractController
 
 
 
-        return $this->render('admin/print/index.html.twig', ['attendances' => $attendances, 'form' => $form->createView(), 'date'=> $currentDate]);
+        return $this->render('admin/print/index.html.twig', ['attendances' => $attendances, 'form' => $form->createView(), 'date' => $currentDate]);
     }
 
-    
+
 }
