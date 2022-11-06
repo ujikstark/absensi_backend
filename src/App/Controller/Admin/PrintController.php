@@ -60,12 +60,12 @@ class PrintController extends AbstractController
 
                 // Render the HTML as PDF
                 $dompdf->render();
-                header('Content-Type: application/pdf');
 
                 // Output the generated PDF to Browser (inline view)
                 $dompdf->stream("Absen ". date_format($currentDate, "d M Y"), [
                     "Attachment" => false
                 ]);
+                exit();
                 // return $this->render('admin/print/test.html.twig');
             }
             // dd($newDate);
