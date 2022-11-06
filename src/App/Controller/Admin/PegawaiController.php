@@ -32,6 +32,8 @@ class PegawaiController extends AbstractController
         return $this->render('admin/pegawai/index.html.twig', ['users' => $users]);
     }
 
+    
+
     #[Route(path: '/admin/pegawai/create', name: 'admin_create_user')]
     public function create(Request $request): Response
     {
@@ -51,7 +53,7 @@ class PegawaiController extends AbstractController
             return $this->redirectToRoute('app_admin_pegawai');
         }
 
-        return $this->render('admin/create.html.twig', ['form' => $form->createView()]);
+        return $this->render('admin/pegawai/create.html.twig', ['form' => $form->createView()]);
     }
 
     #[Route(path: '/admin/pegawai/edit/{id}', name: 'admin_edit_user')]
