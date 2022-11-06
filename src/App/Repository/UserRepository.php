@@ -86,7 +86,7 @@ class UserRepository extends ServiceEntityRepository
             LEFT JOIN attendance AS a ON a.id = (
                 SELECT id
                 FROM attendance AS a2 WHERE a2.user_id = u.id AND
-                YEAR(a2.entered_at) =  :y AND MONTH(a2.entered_at) = :m AND DAY(a2.entered_at) = :d
+                EXTRACT(YEAR FROM a2.entered_at) =  :y AND EXTRACT(MONTH FROM a2.entered_at) = :m AND EXTRACT(DAY FROM a2.entered_at) = :d
                 LIMIT 1
         )', $rsm);
 
