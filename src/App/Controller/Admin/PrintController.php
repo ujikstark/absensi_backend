@@ -65,6 +65,7 @@ class PrintController extends AbstractController
                 $dompdf->stream("Absen ". date_format($currentDate, "d M Y"), [
                     "Attachment" => false
                 ]);
+                exit();
                 // return $this->render('admin/print/test.html.twig');
             }
             // dd($newDate);
