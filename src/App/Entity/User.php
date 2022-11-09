@@ -116,6 +116,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         ORM\Column(type: Types::TEXT, nullable: true),
         Serializer\Groups(groups: [
         'get_user',
+        'get_me'
         ])
     ]
     private ?string $address = null;
@@ -124,6 +125,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         ORM\Column(length: 20, nullable: true),
         Serializer\Groups(groups: [
             'get_user',
+            'get_me'
         ])
     ]
     private ?string $phoneNumber = null;
@@ -135,6 +137,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         ORM\Column(length: 255, nullable: true),
         Serializer\Groups(groups: [
             'get_user',
+            'get_me'
         ])
     ]
     private ?string $description = null;
